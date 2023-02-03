@@ -5,10 +5,11 @@ import { MergeSort } from "./sort-algorithms/merge_sort.js";
 import { QuickSort } from "./sort-algorithms/quick_sort.js";
 import { RadixSort } from "./sort-algorithms/radix_sort.js";
 import { SelectionSort } from "./sort-algorithms/selection_sort.js";
+import { shuffleArray } from "./utils.js";
 
 let values = [];
-let len = 100;
-let s;
+let len = 200;
+let sorting = false;
 
 window.setup = async () => {
   createCanvas(400, 400);
@@ -18,15 +19,36 @@ window.setup = async () => {
     values.push(Math.floor(random(height)));
   }
 
-  //   s = new QuickSort();
-  //   s = new SelectionSort();
-  //   s = new BubbleSort();
-  //   s = new InsertionSort();
-  //   s = new MergeSort();
-  //   s = new HeapSort();
-  s = new RadixSort();
+  createButton("Shuffle").mousePressed(async () => {
+    if (sorting) {
+      alert("Sorting is already in progress!");
+    } else {
+      sorting = true;
+      await shuffleArray(values);
+      sorting = false;
+    }
+  });
 
-  await s.sort(values);
+  [
+    BubbleSort,
+    HeapSort,
+    InsertionSort,
+    MergeSort,
+    QuickSort,
+    RadixSort,
+    SelectionSort,
+  ].forEach((algorithm) => {
+    createButton(algorithm.name).mousePressed(async () => {
+      if (sorting) {
+        alert("Sorting is already in progress!");
+      } else {
+        sorting = true;
+        let s = new algorithm();
+        await s.sort(values);
+        sorting = false;
+      }
+    });
+  });
 };
 
 window.draw = () => {
