@@ -20,16 +20,14 @@ window.setup = async () => {
   }
 
   createButton("Shuffle").mousePressed(async () => {
-    if (sorting) {
-      alert("Sorting is already in progress!");
-    } else {
-      sorting = true;
-      await shuffleArray(values);
-      sorting = false;
-    }
+    if (sorting) return alert("Sorting is already in progress!");
+
+    sorting = true;
+    await shuffleArray(values);
+    sorting = false;
   });
 
-  [
+  let algorithms = [
     BubbleSort,
     HeapSort,
     InsertionSort,
@@ -37,16 +35,14 @@ window.setup = async () => {
     QuickSort,
     RadixSort,
     SelectionSort,
-  ].forEach((algorithm) => {
+  ];
+  algorithms.forEach((algorithm) => {
     createButton(algorithm.name).mousePressed(async () => {
-      if (sorting) {
-        alert("Sorting is already in progress!");
-      } else {
-        sorting = true;
-        let s = new algorithm();
-        await s.sort(values);
-        sorting = false;
-      }
+      if (sorting) return alert("Sorting is already in progress!");
+      sorting = true;
+      let s = new algorithm();
+      await s.sort(values);
+      sorting = false;
     });
   });
 };
