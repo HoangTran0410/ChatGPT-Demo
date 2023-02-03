@@ -8,7 +8,7 @@ import { SelectionSort } from "./sort-algorithms/selection_sort.js";
 import { shuffleArray } from "./utils.js";
 
 let values = [];
-let len = 200;
+let len = 100;
 let sorting = false;
 
 window.setup = async () => {
@@ -58,4 +58,21 @@ window.draw = () => {
     stroke(map(values[i], 0, height, 0, 100), 255, 255);
     line((i * width) / len, height, (i * width) / len, height - values[i]);
   }
+
+  if (sorting) {
+    drawLoading();
+  }
 };
+
+let angle = 0;
+function drawLoading() {
+  translate(15, 15);
+
+  let r = 10;
+  noFill();
+  strokeWeight(5);
+  stroke(255);
+  arc(0, 0, r * 2, r * 2, angle - PI, angle);
+
+  angle += 0.05;
+}
